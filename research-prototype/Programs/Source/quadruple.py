@@ -76,8 +76,10 @@ def quadruple_dest_comp(col0, col1, col2, col3):
             + col3 * (cparts[8] - cparts[0])
             + x01 * (cparts[0] - cparts[1] - cparts[2] + cparts[3])
             + x02 * (cparts[0] - cparts[1] - cparts[4] + cparts[5])
+            + x03 * (cparts[0] - cparts[1] - cparts[8] + cparts[9])
             + x12 * (cparts[0] - cparts[2] - cparts[4] + cparts[6])
             + x13 * (cparts[0] - cparts[2] - cparts[8] + cparts[10])
+            + x23 * (cparts[0] - cparts[4] - cparts[8] + cparts[12])
             # Fix the weight 3
             + x012 * (- cparts[0] + cparts[1] + cparts[2] + cparts[4]
                       - cparts[3] - cparts[5] - cparts[6]
