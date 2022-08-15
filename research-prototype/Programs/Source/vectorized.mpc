@@ -17,6 +17,7 @@ BREAKDOWN_KEY = 3
 RADIX_SORT = 0
 TWO_BIT_RADIX_SORT = 4
 THREE_BIT_RADIX_SORT = 5
+FOUR_BIT_RADIX_SORT = 6
 BIT_RADIX_SORT = 1
 BATCHER_SORT = 2
 LIBRARY_SORT = 3
@@ -56,6 +57,10 @@ def validate_bits(arr: Array) -> Tuple[sint, sint]:
             tree_reduce(operator.add, big))
 
 def check_sorted(arr: Array) -> cint:
+    """
+    Return the number of consecutive pairs which are out
+    of order.  If sorted, it should be 0.
+    """
     num = len(arr)
 
     misplaced = (arr.get_vector(size = num - 1)
@@ -222,7 +227,6 @@ def main():
     reports = Matrix(numrows, 4, sint)
     reports.assign_vector(sint.get_input_from(0, size = numrows * 4))
 
-    match_keys = reports.get_column(MATCH_KEYS)
     # Now do the sort
     # Radix sort
     sorter = {LIBRARY_SORT: lambda mkeys, reps:
@@ -233,10 +237,14 @@ def main():
               radix_sort(mkeys, reps, n_bits = args.n_bits, chunk = 2),
               THREE_BIT_RADIX_SORT: lambda mkeys, reps:
               radix_sort(mkeys, reps, n_bits = args.n_bits, chunk = 3),
+              FOUR_BIT_RADIX_SORT: lambda mkeys, reps:
+              radix_sort(mkeys, reps, n_bits = args.n_bits, chunk = 4),
               BATCHER_SORT: lambda mkeys, reps:
               print("Batcher not implemented")}
 
     if args.do_sort:
+
+        match_keys = reports.get_column(MATCH_KEYS)
 
         sort_fn = sorter.get(args.sort_type,
                              lambda mkeys, reps:
