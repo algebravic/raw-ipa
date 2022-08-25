@@ -1,5 +1,5 @@
 """
-Sort by 3 bits at a time
+Sort by 4 bits at a time
 """
 
 from Compiler import types, library, instructions, sorting
@@ -27,46 +27,46 @@ def quadruple_dest_comp(col0, col1, col2, col3):
     x123 = col1 * x23
     x0123 = col0 * x123
 
-    cum = types.sint.Array(num * 16)
+    cumval = types.sint.Array(num * 16)
 
-    cum.assign_vector(1 - col0 - col1 - col2 - col3
+    cumval.assign_vector(1 - col0 - col1 - col2 - col3
                       + x01 + x02 + x03 + x12 + x13 + x23
                       - x012 - x013 - x023 - x123 + x0123,
                       base = 0) #0000
-    cum.assign_vector(col0 - x01 - x02 - x03
+    cumval.assign_vector(col0 - x01 - x02 - x03
                       + x012 + x013 + x023
                       - x0123, base = num) #0001
-    cum.assign_vector(col1 - x01 - x12 - x13
+    cumval.assign_vector(col1 - x01 - x12 - x13
                       + x012 + x013 + x123
                       - x0123, base = 2 * num) #0010
-    cum.assign_vector(x01 - x012 - x013
+    cumval.assign_vector(x01 - x012 - x013
                       + x0123, base = 3 * num) #0011
-    cum.assign_vector(col2 - x02 - x12 - x23
+    cumval.assign_vector(col2 - x02 - x12 - x23
                       + x012 + x023 + x123
                       - x0123, base = 4 * num) #0100
-    cum.assign_vector(x02 - x012 - x023
+    cumval.assign_vector(x02 - x012 - x023
                       + x0123, base = 5 * num) #0101
-    cum.assign_vector(x12 - x012 - x123
+    cumval.assign_vector(x12 - x012 - x123
                       + x0123, base = 6 * num) #0110
-    cum.assign_vector(x012 - x0123, base = 7 * num) #0111
-    cum.assign_vector(col3 - x03 - x13 - x23
+    cumval.assign_vector(x012 - x0123, base = 7 * num) #0111
+    cumval.assign_vector(col3 - x03 - x13 - x23
                       + x013 + x023 + x123
                       - x0123, base = 8 * num) #1000
-    cum.assign_vector(x03 - x013 - x023
+    cumval.assign_vector(x03 - x013 - x023
                       + x0123, base = 9 * num) #1001
-    cum.assign_vector(x13 - x013 - x123
+    cumval.assign_vector(x13 - x013 - x123
                       + x0123, base = 10 * num) #1010
-    cum.assign_vector(x013 - x0123, base = 11 * num) #1011
-    cum.assign_vector(x23 - x023 - x123 + x0123, base = 12 * num) #1100
-    cum.assign_vector(x023 - x0123, base = 13 * num) #1101
-    cum.assign_vector(x123 - x0123, base = 14 * num) #1110
-    cum.assign_vector(x0123, base = 15 * num) #1111
+    cumval.assign_vector(x013 - x0123, base = 11 * num) #1011
+    cumval.assign_vector(x23 - x023 - x123 + x0123, base = 12 * num) #1100
+    cumval.assign_vector(x023 - x0123, base = 13 * num) #1101
+    cumval.assign_vector(x123 - x0123, base = 14 * num) #1110
+    cumval.assign_vector(x0123, base = 15 * num) #1111
 
-    @library.for_range(len(cum) - 1)
+    @library.for_range(len(cumval) - 1)
     def _(i):
-        cum[i + 1] = cum[i + 1] + cum[i]
+        cumval[i + 1] = cumval[i + 1] + cumval[i]
 
-    cparts = [cum.get_vector(base = _ * num, size = num)
+    cparts = [cumval.get_vector(base = _ * num, size = num)
               for _ in range(16)]
 
     dest = (cparts[0]
