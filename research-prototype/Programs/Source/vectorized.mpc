@@ -7,7 +7,7 @@ import sys
 from typing import Optional, Tuple
 import operator
 from pathlib import Path
-from Compiler import types, library, instructions, sorting
+from Compiler import types, library, sorting
 
 MATCH_KEYS = 0
 VALUE = 2
@@ -22,39 +22,10 @@ BIT_RADIX_SORT = 1
 BATCHER_SORT = 2
 LIBRARY_SORT = 3
 
-def print_property(fun, vec, msg):
-
-    print_ln("%s: %s", msg, tree_reduce(operator.add,fun(vec)).reveal())
-
 def set_directory() -> None:
 
     source_dir = os.getcwd() + '/Programs/Source'
     sys.path = [source_dir] + sys.path
-
-def reconstruct(bit_array: Matrix) -> Array:
-    """
-    bit_array is an N by B array of bits
-    compute the integer representation.
-    This should only involve scalar multiplies and adds.
-    """
-
-    num, n_bits = bit_array.sizes
-    result = Array(num, sint)
-    result.assign_vector(bit_array.get_column(n_bits - 1))
-    for ind in range(n_bits - 2, -1, -1):
-        result = result + result + bit_array.get_column(ind)
-    return result
-
-def validate_bits(arr: Array) -> Tuple[sint, sint]:
-    """
-    Test a purported bit vector.
-    """
-
-    small = arr.get_vector() < 0
-    big = arr.get_vector() > 1
-
-    return (tree_reduce(operator.add, small),
-            tree_reduce(operator.add, big))
 
 def check_sorted(arr: Array) -> cint:
     """
@@ -262,4 +233,3 @@ def main():
     print_ln("breakdowns: %s", breakdown_key_sums.reveal())
     
 main()
-
