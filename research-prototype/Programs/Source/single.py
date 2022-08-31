@@ -21,14 +21,14 @@ def dest_comp(col):
     for 0-origin (as in Python) we must subtract 1.
     """
     num = len(col)
-    cum = types.Array(2 * num, type(col))
-    cum.assign_vector(1 - col, base = 0)
-    cum.assign_vector(col, base = num)
-    @library.for_range(len(cum) - 1)
+    cumval = types.Array(2 * num, type(col))
+    cumval.assign_vector(1 - col, base = 0)
+    cumval.assign_vector(col, base = num)
+    @library.for_range(len(cumval) - 1)
     def _(i):
-        cum[i + 1] = cum[i + 1] + cum[i]
-    c_0 = cum.get_vector(base = 0, size = num)
-    c_1 = cum.get_vector(base = num, size = num)
+        cumval[i + 1] = cumval[i + 1] + cumval[i]
+    c_0 = cumval.get_vector(base = 0, size = num)
+    c_1 = cumval.get_vector(base = num, size = num)
     # (1 - x0) * c[0] + x0 * c[1] = c[0] + x0 * (c[1] - c[0])
     # dest = (c_0 + col * (c_1 - c_0))
     # Original
