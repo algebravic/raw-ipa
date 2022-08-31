@@ -163,8 +163,3 @@ def quadruple_bit_radix_sort(bs, D):
                 sorting.reveal_sort(perm, h, reverse = False)
                 
     sorting.reveal_sort(h, D, reverse = True)
-
-    
-
-    
-    
