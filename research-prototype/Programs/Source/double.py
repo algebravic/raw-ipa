@@ -1,7 +1,7 @@
 """
 Two bit radix sort
 """
-from Compiler import types, library, instructions, sorting
+from Compiler import types, library, sorting
 from single import dest_comp
 
 def double_dest_comp(col0, col1):

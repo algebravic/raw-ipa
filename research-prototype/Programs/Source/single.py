@@ -1,7 +1,7 @@
 """
 Single bit radix sort
 """
-from Compiler import types, library, instructions, sorting
+from Compiler import types, library, sorting
 
 def dest_comp(col):
     """

@@ -2,8 +2,7 @@
 Sort by 3 bits at a time
 """
 
-from Compiler import types, library, instructions, sorting
-from itertools import product
+from Compiler import types, library, sorting
 from single import dest_comp
 from double import double_dest_comp
 

@@ -2,8 +2,7 @@
 Sort by 4 bits at a time
 """
 
-from Compiler import types, library, instructions, sorting
-from itertools import product
+from Compiler import types, library, sorting
 from single import dest_comp
 from double import double_dest_comp
 from triple import triple_dest_comp
@@ -95,8 +94,10 @@ def quadruple_dest_comp(col0, col1, col2, col3):
                       + cparts[14])
             + x0123 * (cparts[0]
                        - cparts[1] - cparts[2] - cparts[4] - cparts[8]
-                       + cparts[3] + cparts[5] + cparts[6] + cparts[9] + cparts[10] + cparts[12]
-                       - cparts[7] - cparts[11] - cparts[13] - cparts[14]
+                       + cparts[3] + cparts[5] + cparts[6]
+                       + cparts[9] + cparts[10] + cparts[12]
+                       - cparts[7] - cparts[11] - cparts[13]
+                       - cparts[14]
                        + cparts[15])
 
             )
