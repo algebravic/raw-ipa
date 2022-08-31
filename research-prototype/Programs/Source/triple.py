@@ -16,23 +16,23 @@ def triple_dest_comp(col0, col1, col2):
     x12 = col1 * col2
     x012 = col0 * x12
 
-    cum = types.sint.Array(num * 8)
+    cumval = types.sint.Array(num * 8)
 
-    cum.assign_vector(1 - col0 - col1 - col2 + x01 + x02 + x12 - x012,
+    cumval.assign_vector(1 - col0 - col1 - col2 + x01 + x02 + x12 - x012,
                       base = 0)
-    cum.assign_vector(col0 - x01 - x02 + x012, base = num)
-    cum.assign_vector(col1 - x01 - x12 + x012, base = 2 * num)
-    cum.assign_vector(x01 - x012, base = 3 * num)
-    cum.assign_vector(col2 - x02 - x12 + x012, base = 4 * num)
-    cum.assign_vector(x02 - x012, base = 5 * num)
-    cum.assign_vector(x12 - x012, base = 6 * num)
-    cum.assign_vector(x012, base = 7 * num)
+    cumval.assign_vector(col0 - x01 - x02 + x012, base = num)
+    cumval.assign_vector(col1 - x01 - x12 + x012, base = 2 * num)
+    cumval.assign_vector(x01 - x012, base = 3 * num)
+    cumval.assign_vector(col2 - x02 - x12 + x012, base = 4 * num)
+    cumval.assign_vector(x02 - x012, base = 5 * num)
+    cumval.assign_vector(x12 - x012, base = 6 * num)
+    cumval.assign_vector(x012, base = 7 * num)
 
-    @library.for_range(len(cum) - 1)
+    @library.for_range(len(cumval) - 1)
     def _(i):
-        cum[i + 1] = cum[i + 1] + cum[i]
+        cumval[i + 1] = cumval[i + 1] + cumval[i]
 
-    cparts = [cum.get_vector(base = _ * num, size = num)
+    cparts = [cumval.get_vector(base = _ * num, size = num)
               for _ in range(8)]
 
     dest = (cparts[0]
