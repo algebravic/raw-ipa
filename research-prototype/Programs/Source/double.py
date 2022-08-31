@@ -71,7 +71,6 @@ def double_bit_radix_sort(bs, D):
         @library.if_e(2 * i + 3 < n_bits)
         def _(): # permute the next two columns
 
-            bot = (2 * i + 2) * num
             tmp = types.Matrix(num, 2, bs.value_type)
             tmp.set_column(0, bs[2 * i + 2].get_vector())
             tmp.set_column(1, bs[2 * i + 3].get_vector())
@@ -81,14 +80,12 @@ def double_bit_radix_sort(bs, D):
 
         @library.else_
         def _():
-            @library.if_e(n_bits % 2 == 0)
-            def even_case():
-                sorting.reveal_sort(h, D, reverse = True)
-            @library.else_
+            @library.if_(n_bits % 2 == 1)
             def odd_case():
                 sorting.reveal_sort(h, bs[n_bits - 1], reverse = True)
                 perm = types.Array.create_from(dest_comp(bs[-1].get_vector()))
                 sorting.reveal_sort(perm, h, reverse = False)
-                sorting.reveal_sort(h, D, reverse = True)
+
+    sorting.reveal_sort(h, D, reverse = True)
 
     # Now take care of the odd case
